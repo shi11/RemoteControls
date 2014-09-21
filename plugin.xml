@@ -13,7 +13,7 @@
     <description>iOS  lock-screen remote-controls and display.</description>
 
     <js-module src="www/RemoteControls.js" name="RemoteControls">
-        <clobbers target="remoteControls" />
+        <clobbers target="window.plugins.remoteControls" />
     </js-module>
 
     <author>Seth Hillinger, François LASSERRE, Michael GAUTHIER</author>
