@@ -23,6 +23,8 @@ static RemoteControls *remoteControls = nil;
     NSString *artist = [command.arguments objectAtIndex:0];
     NSString *title = [command.arguments objectAtIndex:1];
     NSString *album = [command.arguments objectAtIndex:2];
+    NSString *cover = [command.arguments objectAtIndex:3];
+    NSString *elapsedTime = [command.arguments objectAtIndex:4];
 
     if (NSClassFromString(@"MPNowPlayingInfoCenter"))  {
         MPNowPlayingInfoCenter *infoCenter = [MPNowPlayingInfoCenter defaultCenter];
@@ -30,7 +32,9 @@ static RemoteControls *remoteControls = nil;
                                      artist, MPMediaItemPropertyArtist,
                                      title, MPMediaItemPropertyTitle,
                                      album, MPMediaItemPropertyAlbumTitle,
-                                     nil];
+                                     cover, MPMediaItemPropertyArtwork,
+                                     elapsedTime, MPNowPlayingInfoPropertyElapsedPlaybackTime
+                                     ];
     }
 }
 
