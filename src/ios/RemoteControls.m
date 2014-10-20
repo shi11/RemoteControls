@@ -25,10 +25,12 @@ static RemoteControls *remoteControls = nil;
     NSString *album = [command.arguments objectAtIndex:2];
     NSString *cover = [command.arguments objectAtIndex:3];
     NSString *elapsedTime = [command.arguments objectAtIndex:4];
-
+    
+    MPMediaItemArtwork *albumArt;
     if (NSClassFromString(@"MPNowPlayingInfoCenter"))  {
-        MPMediaItemArtwork *albumArt = [[MPMediaItemArtwork alloc] initWithImage:[UIImage imageNamed:cover]];
-
+        UIImage *image = [UIImage imageNamed:cover];
+        albumArt = [[MPMediaItemArtwork alloc] initWithImage:image];
+       
         MPNowPlayingInfoCenter *infoCenter = [MPNowPlayingInfoCenter defaultCenter];
         infoCenter.nowPlayingInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                      artist, MPMediaItemPropertyArtist,
