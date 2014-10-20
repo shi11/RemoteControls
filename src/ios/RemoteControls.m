@@ -27,13 +27,15 @@ static RemoteControls *remoteControls = nil;
     NSString *elapsedTime = [command.arguments objectAtIndex:4];
 
     if (NSClassFromString(@"MPNowPlayingInfoCenter"))  {
+        MPMediaItemArtwork *albumArt = [[MPMediaItemArtwork alloc] initWithImage:[UIImage imageNamed:cover]];
+
         MPNowPlayingInfoCenter *infoCenter = [MPNowPlayingInfoCenter defaultCenter];
         infoCenter.nowPlayingInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                      artist, MPMediaItemPropertyArtist,
                                      title, MPMediaItemPropertyTitle,
                                      album, MPMediaItemPropertyAlbumTitle,
-                                     cover, MPMediaItemPropertyArtwork,
-                                     elapsedTime, MPNowPlayingInfoPropertyElapsedPlaybackTime
+                                     albumArt, MPMediaItemPropertyArtwork,
+                                     elapsedTime, MPNowPlayingInfoPropertyElapsedPlaybackTime, nil
                                      ];
     }
 }
