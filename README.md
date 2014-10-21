@@ -25,16 +25,23 @@ Add the plugin much like any other:
 
        [[RemoteControls remoteControls] receiveRemoteEvent:receivedEvent];
    }
-   
+
 
 ### Example
 ```javascript
 function onDeviceReady() {
-  var RemoteControls = window.plugins.RemoteControls;
   artist = "Daft Punk";
   title = "One More Time";
   album = "Discovery";
-  RemoteControls.updateMetas(artist,title,station);
+  image = "path_within_documents_storage";
+  elapsedTime = my_media.getDuration();
+  
+  var params = [artist, title, album, image,  elapsedTime];
+  window.plugins.remoteControls.updateMetas(function(success){
+      console.log(success);
+  }, function(fail){
+      console.log(fail);
+  }, params);
 }
 ```
 
