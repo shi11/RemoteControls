@@ -91,7 +91,7 @@ static RemoteControls *remoteControls = nil;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options: 0 error: nil];
         NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         
-        NSString *jsStatement = [NSString stringWithFormat:@"remoteControls.receiveRemoteEvent(%@);", jsonString];
+        NSString *jsStatement = [NSString stringWithFormat:@"window.plugins.remoteControls.receiveRemoteEvent(%@);", jsonString];
         [self.webView stringByEvaluatingJavaScriptFromString:jsStatement];  
 
     }
