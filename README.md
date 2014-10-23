@@ -23,7 +23,7 @@ Add the plugin much like any other:
 
 `<plugin name="RemoteControls" value="RemoteControls" />`
 
-6. In MainViewController.m add to
+6. MainViewController.m should look like this
 
 ```
 - (void)viewDidLoad
@@ -43,9 +43,7 @@ Add the plugin much like any other:
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
 }
 
-7. Add this function to MainViewController.m
-
-```
+//add this function
 - (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
 
        [[RemoteControls remoteControls] receiveRemoteEvent:receivedEvent];
