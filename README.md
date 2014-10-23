@@ -17,9 +17,33 @@ Add the plugin much like any other:
 1. Add MediaPlayer.framework in your project.
 2. Add the RemoteControls.h and RemoteControls.m classes to your Plugins folder in Xcode
 3. Add the RemoteControls.js file to your www folder
-4. Add the RemoteControls.js to your html file. eg: `<script type="text/javascript" charset="utf-8" src="RemoteControls.js"></script>`
-5. Add the plugin to your config.xml: `<plugin name="RemoteControls" value="RemoteControls" />` (or if you are running an older version of PhoneGap / Cordova, Cordova.plist under Plugins (key: "RemoteControls" value: "RemoteControls"))
-6. In MainViewController.m add to -(void)viewDidLoad [[RemoteControls remoteControls] setWebView:self.webView];
+4. Add the RemoteControls.js to your html file. eg:
+```javascript
+`<script type="text/javascript" charset="utf-8" src="RemoteControls.js"></script>`
+
+5. Add the plugin to your config.xml:
+```javascript
+`<plugin name="RemoteControls" value="RemoteControls" />` (or if you are running an older version of PhoneGap / Cordova, Cordova.plist under Plugins (key: "RemoteControls" value: "RemoteControls"))
+
+6. In MainViewController.m add to
+```javascript
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    // Do any additional setup after loading the view from its nib.
+    [[RemoteControls remoteControls] setWebView:self.webView];
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    // Turn off remote control event delivery
+    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+}
+
 7. Add this function to MainViewController.m
 - (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
 
@@ -35,7 +59,7 @@ function onDeviceReady() {
   album = "Discovery";
   image = "path_within_documents_storage";
   elapsedTime = my_media.getDuration();
-  
+
   var params = [artist, title, album, image,  elapsedTime];
   window.plugins.remoteControls.updateMetas(function(success){
       console.log(success);
