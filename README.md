@@ -41,7 +41,7 @@ Add the plugin much like any other:
     // e.g. self.myOutlet = nil;
     // Turn off remote control event delivery
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
-}```
+}
 
 7. Add this function to MainViewController.m
 
