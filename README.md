@@ -5,9 +5,7 @@ PhoneGap / Cordova iOS plugin that allows you to use the Remote Controls as well
 
 Require
 -------
-
 - PhoneGap / Cordova 3.x
-- metadata portion forked from of https://github.com/silverorange/RemoteControls
 
 Installation
 ------------
@@ -18,15 +16,16 @@ Add the plugin much like any other:
 2. Add the RemoteControls.h and RemoteControls.m classes to your Plugins folder in Xcode
 3. Add the RemoteControls.js file to your www folder
 4. Add the RemoteControls.js to your html file. eg:
-```javascript
+
 `<script type="text/javascript" charset="utf-8" src="RemoteControls.js"></script>`
 
 5. Add the plugin to your config.xml:
-```javascript
-`<plugin name="RemoteControls" value="RemoteControls" />` (or if you are running an older version of PhoneGap / Cordova, Cordova.plist under Plugins (key: "RemoteControls" value: "RemoteControls"))
+
+`<plugin name="RemoteControls" value="RemoteControls" />`
 
 6. In MainViewController.m add to
-```javascript
+
+```
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -42,14 +41,16 @@ Add the plugin much like any other:
     // e.g. self.myOutlet = nil;
     // Turn off remote control event delivery
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
-}
+}```
 
 7. Add this function to MainViewController.m
+
+```
 - (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
 
        [[RemoteControls remoteControls] receiveRemoteEvent:receivedEvent];
    }
-
+```
 
 ### Example
 ```javascript
