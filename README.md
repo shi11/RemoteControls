@@ -66,6 +66,12 @@ function onDeviceReady() {
       console.log(fail);
   }, params);
 }
+
+//listen for the event
+document.addEventListener("remote-event", function(event) {
+//do something
+})
+
 ```
 
 ## RemoteControls License
