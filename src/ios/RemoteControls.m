@@ -24,24 +24,30 @@ static RemoteControls *remoteControls = nil;
     NSString *title = [command.arguments objectAtIndex:1];
     NSString *album = [command.arguments objectAtIndex:2];
     NSString *cover = [command.arguments objectAtIndex:3];
-    NSString *elapsedTime = [command.arguments objectAtIndex:4];
+    NSString *duration = [command.arguments objectAtIndex:4];
 
     NSString* basePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *fullPath = [NSString stringWithFormat:@"%@%@", basePath, cover];
     
     MPMediaItemArtwork *albumArt;
     if (NSClassFromString(@"MPNowPlayingInfoCenter"))  {
-        UIImage *image = [UIImage imageNamed:fullPath];
-        albumArt = [[MPMediaItemArtwork alloc] initWithImage:image];
-       
-        MPNowPlayingInfoCenter *infoCenter = [MPNowPlayingInfoCenter defaultCenter];
-        infoCenter.nowPlayingInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     artist, MPMediaItemPropertyArtist,
-                                     title, MPMediaItemPropertyTitle,
-                                     album, MPMediaItemPropertyAlbumTitle,
-                                     albumArt, MPMediaItemPropertyArtwork,
-                                     elapsedTime, MPNowPlayingInfoPropertyElapsedPlaybackTime, nil
-                                     ];
+        MPNowPlayingInfoCenter *center = [MPNowPlayingInfoCenter defaultCenter];
+        NSDictionary *songInfo = @{
+                                   MPMediaItemPropertyTitle: title,
+                                   MPMediaItemPropertyArtist: artist,
+                                   MPMediaItemPropertyAlbumTitle:album,
+                                   MPMediaItemPropertyPlaybackDuration : duration
+                                   };
+        center.nowPlayingInfo = songInfo;
+        
+        BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath];
+        if(fileExists){
+            UIImage *image = [UIImage imageNamed:fullPath];
+            albumArt = [[MPMediaItemArtwork alloc] initWithImage:image];
+            NSMutableDictionary *playingInfo = [NSMutableDictionary dictionaryWithDictionary:center.nowPlayingInfo];
+            [playingInfo setObject:albumArt forKey:MPMediaItemPropertyArtwork];
+            center.nowPlayingInfo = playingInfo;
+        }
     }
 }
 
