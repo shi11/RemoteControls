@@ -57,10 +57,11 @@ function onDeviceReady() {
   title = "One More Time";
   album = "Discovery";
   image = "path_within_documents_storage";
-  elapsedTime = my_media.getDuration();
+  duration = my_media.getDuration();
+  elapsedTime = my_media.getElapsedTime();
 
-  var params = [artist, title, album, image,  elapsedTime];
-  window.plugins.remoteControls.updateMetas(function(success){
+  var params = [artist, title, album, image, duration, elapsedTime];
+  remoteControls.updateMetas(function(success){
       console.log(success);
   }, function(fail){
       console.log(fail);
