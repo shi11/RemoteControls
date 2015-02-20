@@ -1,4 +1,4 @@
-    //
+//
 // RemoteControls.m
 // Now Playing Cordova Plugin
 //
@@ -24,31 +24,54 @@ static RemoteControls *remoteControls = nil;
     NSString *title = [command.arguments objectAtIndex:1];
     NSString *album = [command.arguments objectAtIndex:2];
     NSString *cover = [command.arguments objectAtIndex:3];
-    NSString *duration = [command.arguments objectAtIndex:4];
+    NSNumber *duration = [command.arguments objectAtIndex:4];
+    NSNumber *elapsed = [command.arguments objectAtIndex:5];
 
-    NSString* basePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *fullPath = [NSString stringWithFormat:@"%@%@", basePath, cover];
-    
-    MPMediaItemArtwork *albumArt;
-    if (NSClassFromString(@"MPNowPlayingInfoCenter"))  {
-        MPNowPlayingInfoCenter *center = [MPNowPlayingInfoCenter defaultCenter];
-        NSDictionary *songInfo = @{
-                                   MPMediaItemPropertyTitle: title,
-                                   MPMediaItemPropertyArtist: artist,
-                                   MPMediaItemPropertyAlbumTitle:album,
-                                   MPMediaItemPropertyPlaybackDuration : duration
-                                   };
-        center.nowPlayingInfo = songInfo;
-        
-        BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath];
-        if(fileExists){
-            UIImage *image = [UIImage imageNamed:fullPath];
-            albumArt = [[MPMediaItemArtwork alloc] initWithImage:image];
-            NSMutableDictionary *playingInfo = [NSMutableDictionary dictionaryWithDictionary:center.nowPlayingInfo];
-            [playingInfo setObject:albumArt forKey:MPMediaItemPropertyArtwork];
-            center.nowPlayingInfo = playingInfo;
+    // async cover loading
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        UIImage *image = nil;
+        // check whether cover path is present
+        if (![cover isEqual: @""]) {
+            // cover is remote file
+            if ([cover hasPrefix: @"http://"] || [cover hasPrefix: @"https://"]) {
+                NSURL *imageURL = [NSURL URLWithString:cover];
+                NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+                image = [UIImage imageWithData:imageData];
+            }
+            // cover is local file
+            else {
+                NSString *basePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                NSString *fullPath = [NSString stringWithFormat:@"%@%@", basePath, cover];
+                BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath];
+                if (fileExists) {
+                    image = [UIImage imageNamed:fullPath];
+                }
+            }
         }
-    }
+        else {
+            // default named "no-image"
+            image = [UIImage imageNamed:@"no-image"];
+        }
+        // check whether image is loaded
+        CGImageRef cgref = [image CGImage];
+        CIImage *cim = [image CIImage];
+        if (cim != nil || cgref != NULL) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (NSClassFromString(@"MPNowPlayingInfoCenter")) {
+                    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc] initWithImage: image];
+                    MPNowPlayingInfoCenter *center = [MPNowPlayingInfoCenter defaultCenter];
+                    center.nowPlayingInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                        artist, MPMediaItemPropertyArtist,
+                        title, MPMediaItemPropertyTitle,
+                        album, MPMediaItemPropertyAlbumTitle,
+                        artwork, MPMediaItemPropertyArtwork,
+                        duration, MPMediaItemPropertyPlaybackDuration,
+                        elapsed, MPNowPlayingInfoPropertyElapsedPlaybackTime,
+                        [NSNumber numberWithInt:1], MPNowPlayingInfoPropertyPlaybackRate, nil];
+                }
+            });
+        }
+    });
 }
 
 
@@ -56,7 +79,7 @@ static RemoteControls *remoteControls = nil;
     
     if (receivedEvent.type == UIEventTypeRemoteControl) {
         
-        NSString *subtype = nil;
+        NSString *subtype = @"other";
         
         switch (receivedEvent.subtype) {
                 
@@ -90,14 +113,11 @@ static RemoteControls *remoteControls = nil;
             default:
                 break;
         }
-        NSDictionary *dict = @{
-                               @"subtype": subtype
-                               };
         
+        NSDictionary *dict = @{@"subtype": subtype};
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options: 0 error: nil];
         NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        
-        NSString *jsStatement = [NSString stringWithFormat:@"window.plugins.remoteControls.receiveRemoteEvent(%@);", jsonString];
+        NSString *jsStatement = [NSString stringWithFormat:@"if(window.remoteControls)remoteControls.receiveRemoteEvent(%@);", jsonString];
         [self.webView stringByEvaluatingJavaScriptFromString:jsStatement];  
 
     }

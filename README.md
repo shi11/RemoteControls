@@ -56,11 +56,12 @@ function onDeviceReady() {
   artist = "Daft Punk";
   title = "One More Time";
   album = "Discovery";
-  image = "path_within_documents_storage";
-  elapsedTime = my_media.getDuration();
+  image = "path_within_documents_storage OR url_starting_with_http_or_https";
+  duration = my_media.getDuration();
+  elapsedTime = my_media.getElapsedTime();
 
-  var params = [artist, title, album, image,  elapsedTime];
-  window.plugins.remoteControls.updateMetas(function(success){
+  var params = [artist, title, album, image, duration, elapsedTime];
+  remoteControls.updateMetas(function(success){
       console.log(success);
   }, function(fail){
       console.log(fail);
