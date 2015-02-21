@@ -59,7 +59,7 @@ function onDeviceReady() {
   elapsedTime = my_media.getElapsedTime();
 
   var params = [artist, title, album, image, duration, elapsedTime];
-  remoteControls.updateMetas(function(success){
+  window.remoteControls.updateMetas(function(success){
       console.log(success);
   }, function(fail){
       console.log(fail);
