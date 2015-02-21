@@ -7,23 +7,13 @@ Require
 -------
 - PhoneGap / Cordova 3.x
 
-Installation
-------------
+## Installation
 
 Add the plugin much like any other:
 
-1. Add MediaPlayer.framework in your project.
-2. Add the RemoteControls.h and RemoteControls.m classes to your Plugins folder in Xcode
-3. Add the RemoteControls.js file to your www folder
-4. Add the RemoteControls.js to your html file. eg:
+`cordova plugin add com.rd11.remote-controls`
 
-`<script type="text/javascript" charset="utf-8" src="RemoteControls.js"></script>`
-
-5. Add the plugin to your config.xml:
-
-`<plugin name="RemoteControls" value="RemoteControls" />`
-
-6. MainViewController.m should look like this
+#### Modify the MainViewController.m with these functions:
 
 ```
 - (void)viewDidLoad
@@ -45,10 +35,18 @@ Add the plugin much like any other:
 
 //add this function
 - (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
-
        [[RemoteControls remoteControls] receiveRemoteEvent:receivedEvent];
    }
 ```
+
+## Supported Platforms
+- iOS
+
+## Methods
+- window.remoteControls.updateMetas
+
+## Events
+- "remote-event"
 
 ### Example
 ```javascript

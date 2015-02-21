@@ -10,7 +10,7 @@
     <name>RemoteControls</name>
     <keywords>lockscreen,media,now,playing</keywords>
 
-    <description>iOS  lock-screen remote-controls and display.</description>
+    <description>iOS  lock-screen remote-controls and now playing display.</description>
 
     <js-module src="www/RemoteControls.js" name="RemoteControls">
         <clobbers target="window.remoteControls" />
@@ -20,7 +20,7 @@
 
     <license>MIT License</license>
 
-    <info>You need to add the MediaPlayer framework to the list of libraries linked to the project in Build Phases in Xcode.</info>
+    <info>The MediaPlayer.framework should automatically be added, however you also need to add and modify a few functions in the MainViewContrller.m See the example in the README</info>
 
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
@@ -30,6 +30,7 @@
         </config-file>
         <header-file src="src/ios/RemoteControls.h" />
         <source-file src="src/ios/RemoteControls.m" />
+        <framework src="MediaPlayer.framework" />
     </platform>
 
 </plugin>
