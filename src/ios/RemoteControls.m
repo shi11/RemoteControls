@@ -38,7 +38,15 @@ static RemoteControls *remoteControls = nil;
                 NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
                 image = [UIImage imageWithData:imageData];
             }
-            // cover is local file
+            // cover is full path to local file
+            else if ([cover hasPrefix: @"file://"]) {
+                NSString *fullPath = [cover stringByReplacingOccurrencesOfString:@"file://" withString:@""];
+                BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath];
+                if (fileExists) {
+                    image = [UIImage imageNamed:fullPath];
+                }
+            }
+            // cover is relative path to local file
             else {
                 NSString *basePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                 NSString *fullPath = [NSString stringWithFormat:@"%@%@", basePath, cover];
@@ -118,7 +126,7 @@ static RemoteControls *remoteControls = nil;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options: 0 error: nil];
         NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         NSString *jsStatement = [NSString stringWithFormat:@"if(window.remoteControls)remoteControls.receiveRemoteEvent(%@);", jsonString];
-        [self.webView stringByEvaluatingJavaScriptFromString:jsStatement];  
+        [self.webView stringByEvaluatingJavaScriptFromString:jsStatement];
 
     }
 }
