@@ -9,6 +9,8 @@
 
     <name>RemoteControls</name>
     <keywords>lockscreen,media,now,playing</keywords>
+    <repo>https://github.com/shi11/RemoteControls.git</repo>
+    <issue>https://github.com/shi11/RemoteControls/issues</issue>
 
     <description>iOS  lock-screen remote-controls and now playing display.</description>
 
