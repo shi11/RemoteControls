@@ -39,6 +39,17 @@ Add the plugin much like any other:
    }
 ```
 
+Then add this below `#import "MainViewController.h"` in `MainViewController.m`
+
+```
+#import "MainViewController.h"
+//import remoteControls
+#import "RemoteControls.h"
+
+@implementation MainViewController
+
+```
+
 ## Supported Platforms
 - iOS
 
