@@ -59,14 +59,17 @@ static RemoteControls *remoteControls = nil;
                 //evaluate if either are true
                 if (fileExists) {
                     image = [UIImage imageNamed:fullPath];
+                    NSLog(@"Found image in documents");
                 } else if (fileExists2) {
                     image = [UIImage imageNamed:fullPath];
+                    NSLog(@"Found image in library");
                 }
             }
         }
         else {
             // default named "no-image"
             image = [UIImage imageNamed:@"no-image"];
+            NSLog(@"No valid image found");
         }
         // check whether image is loaded
         CGImageRef cgref = [image CGImage];
