@@ -65,7 +65,7 @@ function onDeviceReady() {
   artist = "Daft Punk";
   title = "One More Time";
   album = "Discovery";
-  image = "path_within_documents_storage OR url_starting_with_http_or_https";
+  image = "path_within_documents_storage OR path_within_library_storage OR url_starting_with_http_or_https";
   duration = my_media.getDuration();
   elapsedTime = my_media.getElapsedTime();
 
