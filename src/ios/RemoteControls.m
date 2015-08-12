@@ -61,7 +61,7 @@ static RemoteControls *remoteControls = nil;
                     image = [UIImage imageNamed:fullPath];
                     NSLog(@"Found image in documents");
                 } else if (fileExists2) {
-                    image = [UIImage imageNamed:fullPath];
+                    image = [UIImage imageNamed:fullPath2];
                     NSLog(@"Found image in library");
                 }
             }
