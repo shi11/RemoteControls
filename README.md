@@ -1,6 +1,6 @@
 # RemoteControls
 
-PhoneGap / Cordova iOS plugin that allows you to use the Remote Controls as well as add metadatas in RemoteControlsInfoCenter
+PhoneGap / Cordova plugin that allows you to use Music Remote Controls.
 
 ## Supported platforms
 - Android (4.1+)
@@ -24,9 +24,9 @@ MusicControls.create({
 	artist      : 'Muse',
     cover       : 'albums/absolution.jpg',
     isPlaying   : true
-	album       : 'Absolution',
-	duration    : 321,
-	elapsedTime : 123
+	album       : 'Absolution', // iOS only
+	duration    : 321,			// iOS only
+	elapsedTime : 123			// iOS only
 }, onSuccess, onError);
 ```
 
