@@ -1,19 +1,83 @@
-RemoteControls
-==========
+# RemoteControls
 
 PhoneGap / Cordova iOS plugin that allows you to use the Remote Controls as well as add metadatas in RemoteControlsInfoCenter
 
-Require
--------
+## Supported platforms
+- Android (4.1+)
+- Windows (10+)
+- iOS
+
+## Require
 - PhoneGap / Cordova 3.x
 
 ## Installation
 
 Add the plugin much like any other:
 
-`cordova plugin add com.rd11.remote-controls`
+`cordova plugin add https://github.com/shi11/RemoteControls`
 
-#### Modify the MainViewController.m with these functions:
+## Methods
+- Create the media controls:
+```javascript
+MusicControls.create({
+    track       : 'Time is Running Out',
+	artist      : 'Muse',
+    cover       : 'albums/absolution.jpg',
+    isPlaying   : true
+	album       : 'Absolution',
+	duration    : 321,
+	elapsedTime : 123
+}, onSuccess, onError);
+```
+
+- Destroy the media controller:
+```javascript
+MusicControls.destroy(onSuccess, onError);
+```
+
+- Subscribe events to the media controller:
+```javascript
+function events(action) {
+	switch(action) {
+		case 'music-controls-next':
+			// Do something
+			break;
+		case 'music-controls-previous':
+			// Do something
+			break;
+		case 'music-controls-pause':
+			// Do something
+			break;
+		case 'music-controls-play':
+			// Do something
+			break;
+
+		// Headset events (Android only)
+		case 'music-controls-media-button' :
+			// Do something
+			break;
+		case 'music-controls-headset-unplugged':
+			// Do something
+			break;
+		case 'music-controls-headset-plugged':
+			// Do something
+			break;
+		default:
+			break;
+	}
+}
+
+// Register callback
+MusicControls.subscribe(events);
+
+// Start listening for events
+// The plugin will run the events function each time an event is fired
+MusicControls.listen();
+```
+
+## iOS specific
+
+Modify the MainViewController.m with these functions:
 
 ```
 - (void)viewDidLoad
@@ -37,40 +101,6 @@ Add the plugin much like any other:
 - (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
        [[RemoteControls remoteControls] receiveRemoteEvent:receivedEvent];
    }
-```
-
-## Supported Platforms
-- iOS
-
-## Methods
-- window.remoteControls.updateMetas
-
-## Events
-- "remote-event"
-
-### Example
-```javascript
-function onDeviceReady() {
-  artist = "Daft Punk";
-  title = "One More Time";
-  album = "Discovery";
-  image = "path_within_documents_storage OR url_starting_with_http_or_https";
-  duration = my_media.getDuration();
-  elapsedTime = my_media.getElapsedTime();
-
-  var params = [artist, title, album, image, duration, elapsedTime];
-  window.remoteControls.updateMetas(function(success){
-      console.log(success);
-  }, function(fail){
-      console.log(fail);
-  }, params);
-}
-
-//listen for the event
-document.addEventListener("remote-event", function(event) {
-//do something
-})
-
 ```
 
 ## RemoteControls License
