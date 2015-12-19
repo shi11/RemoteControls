@@ -50,6 +50,18 @@ Then add this below `#import "MainViewController.h"` in `MainViewController.m`
 
 ```
 
+If you want buttons "Previous Track" and "Next Track" to be shown, then add these lines into "init" of your `MainViewController.m`
+
+```
+MPRemoteCommandCenter * cc = [MPRemoteCommandCenter sharedCommandCenter];
+[cc.nextTrackCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
+    return MPRemoteCommandHandlerStatusSuccess;
+}];
+[cc.previousTrackCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
+    return MPRemoteCommandHandlerStatusSuccess;
+}];
+```
+
 ## Supported Platforms
 - iOS
 
