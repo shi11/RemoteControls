@@ -33,10 +33,16 @@ static RemoteControls *remoteControls = nil;
         // check whether cover path is present
         if (![cover isEqual: @""]) {
             // cover is remote file
-            if ([cover hasPrefix: @"http://"] || [cover hasPrefix: @"https://"]) {
+            if ([cover hasPrefix: @"http://"] || [cover hasPrefix: @"https://"] || [cover hasPrefix: @"data:"]) {
                 NSURL *imageURL = [NSURL URLWithString:cover];
-                NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-                image = [UIImage imageWithData:imageData];
+                NSError* error = nil;
+                NSData* imageData = [NSData dataWithContentsOfURL:imageURL options:NSDataReadingUncached error:&error];
+                if (error) {
+                    NSLog(@"%@", [error localizedDescription]);
+                }
+                else {
+                    image = [UIImage imageWithData:imageData];
+                }
             }
             // cover is full path to local file
             else if ([cover hasPrefix: @"file://"]) {
