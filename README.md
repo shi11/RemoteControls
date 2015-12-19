@@ -7,23 +7,13 @@ Require
 -------
 - PhoneGap / Cordova 3.x
 
-Installation
-------------
+## Installation
 
 Add the plugin much like any other:
 
-1. Add MediaPlayer.framework in your project.
-2. Add the RemoteControls.h and RemoteControls.m classes to your Plugins folder in Xcode
-3. Add the RemoteControls.js file to your www folder
-4. Add the RemoteControls.js to your html file. eg:
+`cordova plugin add com.rd11.remote-controls`
 
-`<script type="text/javascript" charset="utf-8" src="RemoteControls.js"></script>`
-
-5. Add the plugin to your config.xml:
-
-`<plugin name="RemoteControls" value="RemoteControls" />`
-
-6. MainViewController.m should look like this
+#### Modify the MainViewController.m with these functions:
 
 ```
 - (void)viewDidLoad
@@ -45,10 +35,41 @@ Add the plugin much like any other:
 
 //add this function
 - (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
-
        [[RemoteControls remoteControls] receiveRemoteEvent:receivedEvent];
    }
 ```
+
+Then add this below `#import "MainViewController.h"` in `MainViewController.m`
+
+```
+#import "MainViewController.h"
+//import remoteControls
+#import "RemoteControls.h"
+
+@implementation MainViewController
+
+```
+
+If you want buttons "Previous Track" and "Next Track" to be shown, then add these lines into "init" of your `MainViewController.m`
+
+```
+MPRemoteCommandCenter * cc = [MPRemoteCommandCenter sharedCommandCenter];
+[cc.nextTrackCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
+    return MPRemoteCommandHandlerStatusSuccess;
+}];
+[cc.previousTrackCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
+    return MPRemoteCommandHandlerStatusSuccess;
+}];
+```
+
+## Supported Platforms
+- iOS
+
+## Methods
+- window.remoteControls.updateMetas
+
+## Events
+- "remote-event"
 
 ### Example
 ```javascript
@@ -61,7 +82,7 @@ function onDeviceReady() {
   elapsedTime = my_media.getElapsedTime();
 
   var params = [artist, title, album, image, duration, elapsedTime];
-  remoteControls.updateMetas(function(success){
+  window.remoteControls.updateMetas(function(success){
       console.log(success);
   }, function(fail){
       console.log(fail);

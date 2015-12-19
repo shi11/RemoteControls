@@ -22,7 +22,6 @@ remoteControls.updateMetas = function(success, fail, params) {
 };
 
 remoteControls.receiveRemoteEvent = function(event) {
-    console.log("nowplaying.js receiveremoetevent asdf");
     var ev = document.createEvent('HTMLEvents');
     ev.remoteEvent = event;
     ev.initEvent('remote-event', true, true, arguments);
