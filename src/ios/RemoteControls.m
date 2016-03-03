@@ -18,6 +18,16 @@ static RemoteControls *remoteControls = nil;
     NSLog(@"RemoteControls plugin init.");
 }
 
+- (void)jsCallback: (NSString*)jsString
+ {
+     if ([self.webView isKindOfClass:[UIWebView class]]) {
+         [(UIWebView*)self.webView stringByEvaluatingJavaScriptFromString:jsString];
+     }else if([self.webView isKindOfClass:[WKWebView class]]) {
+         [(WKWebView*)self.webView evaluateJavaScript:jsString completionHandler:nil];
+     }
+ }
+ 
+
 - (void)updateMetas:(CDVInvokedUrlCommand*)command
 {
     NSString *artist = [command.arguments objectAtIndex:0];
@@ -137,15 +147,7 @@ static RemoteControls *remoteControls = nil;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options: 0 error: nil];
         NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         NSString *jsStatement = [NSString stringWithFormat:@"if(window.remoteControls)remoteControls.receiveRemoteEvent(%@);", jsonString];
-
-        if ([self.webView respondsToSelector:@selector(stringByEvaluatingJavaScriptFromString:)]) {
-            // Cordova-iOS pre-4
-            [self.webView stringByEvaluatingJavaScriptFromString:jsStatement];
-        } else {
-            // Cordova-iOS 4+
-            [self.webView evaluateJavaScript:completionHandler:jsStatement];
-        }
-
+        [self jsCallback:jsStatement];
     }
 }
 
