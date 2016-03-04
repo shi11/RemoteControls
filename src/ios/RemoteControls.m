@@ -150,10 +150,6 @@ static RemoteControls *remoteControls = nil;
     }
 }
 
-- (void)viewDidLoad {
-    [[RemoteControls remoteControls] setWebView:self.webView];
-}
-
 - (void)viewDidUnload
 {
     // Turn off remote control event delivery
