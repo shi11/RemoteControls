@@ -138,12 +138,13 @@ static RemoteControls *remoteControls = nil;
         NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         NSString *jsStatement = [NSString stringWithFormat:@"if(window.remoteControls)remoteControls.receiveRemoteEvent(%@);", jsonString];
 
+
         if ([self.webView respondsToSelector:@selector(stringByEvaluatingJavaScriptFromString:)]) {
             // Cordova-iOS pre-4
-            [self.webView stringByEvaluatingJavaScriptFromString:jsStatement];
+            [self.webView performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsStatement waitUntilDone:NO];
         } else {
             // Cordova-iOS 4+
-            [self.webView evaluateJavaScript:completionHandler:jsStatement];
+            [self.webView performSelectorOnMainThread:@selector(evaluateJavaScript:completionHandler:) withObject:jsStatement waitUntilDone:NO];
         }
 
     }
