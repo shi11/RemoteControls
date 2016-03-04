@@ -150,16 +150,6 @@ static RemoteControls *remoteControls = nil;
     }
 }
 
-- (void)viewDidUnload
-{
-    // Turn off remote control event delivery
-    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
-}
-
-- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
-       [[RemoteControls remoteControls] receiveRemoteEvent:receivedEvent];
-}
-
 +(RemoteControls *)remoteControls
 {
     //objects using shard instance are responsible for retain/release count
