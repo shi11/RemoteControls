@@ -141,7 +141,7 @@ static RemoteControls *remoteControls = nil;
 
         if ([self.webView respondsToSelector:@selector(stringByEvaluatingJavaScriptFromString:)]) {
             // Cordova-iOS pre-4
-            [self.webView performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsStatement waitUntilDone:NO];
+            [self.webView performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:jsStatement) waitUntilDone:NO];
         } else {
             // Cordova-iOS 4+
             [self.webView performSelectorOnMainThread:@selector(evaluateJavaScript:completionHandler:) withObject:jsStatement waitUntilDone:NO];
