@@ -23,7 +23,7 @@ remoteControls.updateMetas = function(success, fail, params) {
 
 remoteControls.receiveRemoteEvent = function(event) {
     var ev = document.createEvent('HTMLEvents');
-    console.log("remote event JS "+event);
+    //console.log("remote event JS "+event);
     ev.remoteEvent = event;
     ev.initEvent('remote-event', true, true, arguments);
     document.dispatchEvent(ev);
