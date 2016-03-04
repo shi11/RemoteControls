@@ -13,26 +13,6 @@ Add the plugin much like any other:
 
 `cordova plugin add com.rd11.remote-controls`
 
-#### Modify the MainViewController.m to add this function:
-
-```
-//add this function
-- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"receivedEvent" object:receivedEvent];
-}
-```
-
-Then add this below `#import "MainViewController.h"` in `MainViewController.m`
-
-```
-#import "MainViewController.h"
-//import remoteControls
-#import "RemoteControls.h"
-
-@implementation MainViewController
-
-```
-
 ## Supported Platforms
 - iOS
 

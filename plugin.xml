@@ -32,6 +32,8 @@
         </config-file>
         <header-file src="src/ios/RemoteControls.h" />
         <source-file src="src/ios/RemoteControls.m" />
+        <header-file src="src/ios/MainViewController+RemoteControls.h" />
+        <source-file src="src/ios/MainViewController+RemoteControls.m" />
         <framework src="MediaPlayer.framework" />
     </platform>
 
