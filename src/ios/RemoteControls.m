@@ -144,7 +144,7 @@ static RemoteControls *remoteControls = nil;
 
 -(void)dealloc {
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
-   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"receivedEvent" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"receivedEvent" object:nil];
 }
 
 @end
