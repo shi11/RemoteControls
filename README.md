@@ -13,30 +13,13 @@ Add the plugin much like any other:
 
 `cordova plugin add com.rd11.remote-controls`
 
-#### Modify the MainViewController.m with these functions:
+#### Modify the MainViewController.m to add this function:
 
 ```
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-    // Do any additional setup after loading the view from its nib.
-    [[RemoteControls remoteControls] setWebView:self.webView];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-    // Turn off remote control event delivery
-    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
-}
-
 //add this function
 - (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
-       [[RemoteControls remoteControls] receiveRemoteEvent:receivedEvent];
-   }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"receivedEvent" object:receivedEvent];
+}
 ```
 
 Then add this below `#import "MainViewController.h"` in `MainViewController.m`
