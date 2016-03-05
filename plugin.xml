@@ -22,8 +22,6 @@
 
     <license>MIT License</license>
 
-    <info>The MediaPlayer.framework should automatically be added, however you also need to add and modify a few functions in the MainViewContrller.m See the example in the README</info>
-
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="RemoteControls">
