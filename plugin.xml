@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     id="com.rd11.remote-controls"
-    version="1.0.0">
+    version="1.0.1">
 
     <engines>
         <engine name="cordova" version=">=3.0.0" />
@@ -22,8 +22,6 @@
 
     <license>MIT License</license>
 
-    <info>The MediaPlayer.framework should automatically be added, however you also need to add and modify a few functions in the MainViewContrller.m See the example in the README</info>
-
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="RemoteControls">
@@ -32,6 +30,8 @@
         </config-file>
         <header-file src="src/ios/RemoteControls.h" />
         <source-file src="src/ios/RemoteControls.m" />
+        <header-file src="src/ios/MainViewController+RemoteControls.h" />
+        <source-file src="src/ios/MainViewController+RemoteControls.m" />
         <framework src="MediaPlayer.framework" />
     </platform>
 

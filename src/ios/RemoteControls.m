@@ -16,6 +16,9 @@ static RemoteControls *remoteControls = nil;
 - (void)pluginInitialize
 {
     NSLog(@"RemoteControls plugin init.");
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteEvent:) name:@"receivedEvent" object:nil];
+
 }
 
 - (void)updateMetas:(CDVInvokedUrlCommand*)command
@@ -83,7 +86,9 @@ static RemoteControls *remoteControls = nil;
 }
 
 
-- (void)receiveRemoteEvent:(UIEvent *)receivedEvent {
+- (void)receiveRemoteEvent:(NSNotification *)notification {
+    
+    UIEvent * receivedEvent = notification.object;
 
     if (receivedEvent.type == UIEventTypeRemoteControl) {
 
@@ -126,23 +131,20 @@ static RemoteControls *remoteControls = nil;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options: 0 error: nil];
         NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         NSString *jsStatement = [NSString stringWithFormat:@"if(window.remoteControls)remoteControls.receiveRemoteEvent(%@);", jsonString];
+
+#ifdef __CORDOVA_4_0_0
+        [self.webViewEngine evaluateJavaScript:jsStatement completionHandler:nil];
+#else
         [self.webView stringByEvaluatingJavaScriptFromString:jsStatement];
-
+#endif
+        
     }
 }
 
-+(RemoteControls *)remoteControls
-{
-    //objects using shard instance are responsible for retain/release count
-    //retain count must remain 1 to stay in mem
 
-    if (!remoteControls)
-    {
-        remoteControls = [[RemoteControls alloc] init];
-    }
-
-    return remoteControls;
+-(void)dealloc {
+    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"receivedEvent" object:nil];
 }
-
 
 @end
