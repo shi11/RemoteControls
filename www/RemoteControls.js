@@ -26,4 +26,8 @@ remoteControls.receiveRemoteEvent = function(event) {
     ev.remoteEvent = event;
     ev.initEvent('remote-event', true, true, arguments);
     document.dispatchEvent(ev);
-}
+};
+
+remoteControls.getNowPlaying = function(success, fail, params) {
+    cordova.exec(success, fail, 'RemoteControls', 'getNowPlaying', params);
+};

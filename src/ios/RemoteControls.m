@@ -21,6 +21,13 @@ static RemoteControls *remoteControls = nil;
 
 }
 
+- (void)getNowPlaying:(CDVInvokedUrlCommand*)command
+{
+    //let nowPlaying = MPMusicPlayerController.systemMusicPlayer().nowPlayingItem
+    //(MPMusicPlayerController *)systemMusicPlayer
+    NSLog(@"%@", [[[MPMusicPlayerController systemMusicPlayer] nowPlayingItem] valueForProperty:MPMediaItemPropertyTitle]);
+}
+
 - (void)updateMetas:(CDVInvokedUrlCommand*)command
 {
     NSString *artist = [command.arguments objectAtIndex:0];
