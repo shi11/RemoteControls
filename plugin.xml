@@ -6,7 +6,6 @@
     <engines>
         <engine name="cordova" version=">=3.0.0" />
     </engines>
-
     <name>RemoteControls</name>
     <keywords>lockscreen,media,now,playing</keywords>
     <repo>https://github.com/shi11/RemoteControls.git</repo>
@@ -17,11 +16,8 @@
     <js-module src="www/RemoteControls.js" name="RemoteControls">
         <clobbers target="window.remoteControls" />
     </js-module>
-
-    <author>Seth Hillinger, François LASSERRE, Michael GAUTHIER</author>
-
+    <author>Seth Hillinger, François LASSERRE, Michael GAUTHIER, Guilherme Chaguri</author>
     <license>MIT License</license>
-
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="RemoteControls">
@@ -34,5 +30,26 @@
         <source-file src="src/ios/MainViewController+RemoteControls.m" />
         <framework src="MediaPlayer.framework" />
     </platform>
-
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="RemoteControls">
+                <param name="android-package" value="guichaguri.remotecontrols.RemoteControls" />
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <service android:stopWithTask="false" android:name="guichaguri.remotecontrols.RemoteNotification$NotificationService" />
+        </config-file>
+        <source-file src="src/android/RemoteControls.java" target-dir="src/guichaguri/remotecontrols" />
+        <source-file src="src/android/RemoteEventHandler.java" target-dir="src/guichaguri/remotecontrols" />
+        <source-file src="src/android/RemoteNotification.java" target-dir="src/guichaguri/remotecontrols" />
+        <resource-file src="src/android/res/play.png" target="res/drawable/play.png" />
+        <resource-file src="src/android/res/pause.png" target="res/drawable/pause.png" />
+        <resource-file src="src/android/res/stop.png" target="res/drawable/stop.png" />
+        <resource-file src="src/android/res/next.png" target="res/drawable/next.png" />
+        <resource-file src="src/android/res/previous.png" target="res/drawable/previous.png" />
+        <framework src="com.android.support:appcompat-v7:24.2.0" />
+    </platform>
 </plugin>
