@@ -36,7 +36,7 @@ static RemoteControls *remoteControls = nil;
         // check whether cover path is present
         if (![cover isEqual: @""]) {
             // cover is remote file
-            if ([cover hasPrefix: @"http://"] || [cover hasPrefix: @"https://"]) {
+            if ([cover hasPrefix: @"http://"] || [cover hasPrefix: @"https://"] || [cover hasPrefix: @"data:"]) {
                 NSURL *imageURL = [NSURL URLWithString:cover];
                 NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
                 image = [UIImage imageWithData:imageData];

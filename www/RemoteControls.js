@@ -21,6 +21,10 @@ remoteControls.updateMetas = function(success, fail, params) {
     cordova.exec(success, fail, 'RemoteControls', 'updateMetas', params);
 };
 
+remoteControls.bindAction = function (callbackId) {
+    cordova.exec(callbackId, callbackId, 'RemoteControls', 'bindAction', []);
+};
+
 remoteControls.receiveRemoteEvent = function(event) {
     var ev = document.createEvent('HTMLEvents');
     ev.remoteEvent = event;
