@@ -51,17 +51,28 @@ static RemoteControls *remoteControls = nil;
             }
             // cover is relative path to local file
             else {
+                //check the documents directory
                 NSString *basePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                 NSString *fullPath = [NSString stringWithFormat:@"%@%@", basePath, cover];
                 BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath];
+                //check the library directory
+                NSString *basePath2 = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                NSString *fullPath2 = [NSString stringWithFormat:@"%@%@", basePath2, cover];
+                BOOL fileExists2 = [[NSFileManager defaultManager] fileExistsAtPath:fullPath2];
+                //evaluate if either are true
                 if (fileExists) {
                     image = [UIImage imageNamed:fullPath];
+                    NSLog(@"Found image in documents");
+                } else if (fileExists2) {
+                    image = [UIImage imageNamed:fullPath2];
+                    NSLog(@"Found image in library");
                 }
             }
         }
         else {
             // default named "no-image"
             image = [UIImage imageNamed:@"no-image"];
+            NSLog(@"No valid image found");
         }
         // check whether image is loaded
         CGImageRef cgref = [image CGImage];
